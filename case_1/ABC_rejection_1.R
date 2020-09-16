@@ -39,7 +39,7 @@ while(i <= N){ # While the number of accepted particles is less than N_particles
   }
   j <- j + 1 # Update counter
   acc_rate <- i / j # Calculate the acceptance rate 
-  cat("current acceptance rate = ", acc_rate, "\r")
+  cat("current acceptance rate = ", acc_rate, " number of accepted particles = ", i, "\r")
 }
 
 # Save data to csv file

@@ -50,8 +50,8 @@ abline(v=3,col=4,lty=2,lwd=2)
 dev.off()
 
 # Load the data
-data <- read.csv("data.csv")
-source("case_1_preamble.R")
+data <- read.csv("data/data.csv")
+source("case_1/case_1_preamble.R")
 
 set.seed(20)
 ###plot of model outbreak
