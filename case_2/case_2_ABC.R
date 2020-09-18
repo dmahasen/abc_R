@@ -1,13 +1,13 @@
 
-source('case_2_preamble.R')
-msl_data <- read.csv(file.path("..", "data", "Measles_data_time.csv"))
+source('case_2/case_2_preamble.R')
+msl_data <- read.csv(file.path( "data", "Measles_data_time.csv"))
 
 # Length of observed outbreak (weeks)
-n_obs<-nrow(msl_data)
+n_obs <- nrow(msl_data)
 
 # Age classes: 0.5-1, 1-2,..., 19-20, 20-100
 age<-data.frame(lower=c(0.5, seq(1,20)), upper=c(seq(1,20),100)) 
-n_age<-nrow(age)  
+n_age <- nrow(age)  
 
 #  Observed percentage in three age groups
 msl_age_perc<-c(42, 30, 28) 
@@ -45,28 +45,28 @@ i <- 1 # Initiate counter of accepted particles
 j <- 1 # Initiate counter of proposed particles
 
 while(i <= N){ # While the number of accepted particles is less than N_particles
-    
-    # Sample from prior distributions 
- 	N0_star<- runif(1,min=lm.low[1], max=lm.upp[1])
-	age_sh_star<-runif(1, min=lm.low[2], max=lm.upp[2])
-	age_rt_star<-runif(1, min=lm.low[3], max=lm.upp[3])
-	beta_star<- runif(1, min=lm.low[4], max=lm.upp[4]) 
-	f_E_star<- runif(1,min=lm.low[5], max=lm.upp[5]) 
-      
-    # Simulate data set from the model
-    D_star<-run_model(N0_star, age_sh_star, age_rt_star, beta_star, f_E_star)
-      
-    # Calculate distance  
-    distance <- calc_distance(D_star[[1]], D_star[[2]])
-      
-    if((distance[1] <= epsilon_T) & (distance[2] <= epsilon_A)){ # If both distances are less than their tolerances
-      # Store results
-      res[i,]<-c(N0_star,age_sh_star,age_rt_star,beta_star,f_E_star)   
-      i <- i + 1  # Update counter
-    }
-	j <- j + 1 # Update counter
-	acc_rate <- i / j # Calculate the acceptance rate 
-	cat("current acceptance rate = ", round(acc_rate, 2), "\n")
+  
+  # Sample from prior distributions 
+  N0_star<- runif(1,min=lm.low[1], max=lm.upp[1])
+  age_sh_star<-runif(1, min=lm.low[2], max=lm.upp[2])
+  age_rt_star<-runif(1, min=lm.low[3], max=lm.upp[3])
+  beta_star<- runif(1, min=lm.low[4], max=lm.upp[4]) 
+  f_E_star<- runif(1,min=lm.low[5], max=lm.upp[5]) 
+  
+  # Simulate data set from the model
+  D_star<-run_model(N0_star, age_sh_star, age_rt_star, beta_star, f_E_star)
+  
+  # Calculate distance  
+  distance <- calc_distance(D_star[[1]], D_star[[2]])
+  
+  if((distance[1] <= epsilon_T) & (distance[2] <= epsilon_A)){ # If both distances are less than their tolerances
+    # Store results
+    res[i,]<-c(N0_star,age_sh_star,age_rt_star,beta_star,f_E_star)   
+    i <- i + 1  # Update counter
+  }
+  j <- j + 1 # Update counter
+  acc_rate <- i / j # Calculate the acceptance rate 
+  cat("current acceptance rate = ", round(acc_rate, 2), " Number of accepted particles ", i, "\n")
 }
 
 write.csv(res, file = "results_case_2_ABC_.csv")

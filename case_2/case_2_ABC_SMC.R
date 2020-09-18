@@ -2,8 +2,9 @@
 
 library(tmvtnorm)
  
-source('case_2_preamble.R')
-msl_data <- read.csv(file.path("..", "data", "Measles_data_time.csv"))
+source('case_2/case_2_preamble.R')
+source("case_2/abcSMC.R")
+msl_data <- read.csv(file.path("data", "Measles_data_time.csv"))
 
 # Length of observed outbreak (weeks)
 n_obs<-nrow(msl_data)
@@ -41,12 +42,12 @@ G <- length(epsilon_T)
 n <- 1
 
 #  Lower and upper boundaries for priors
-lm.low<-c(140*10^3, 0.8, 0.1, 0, 0)
-lm.upp<-c(300*10^3, 1.4, 0.4, 5*10^(-6), 0.001)
+lm.low <- c(140*10^3, 0.8, 0.1, 0, 0)
+lm.upp <- c(300*10^3, 1.4, 0.4, 5*10^(-6), 0.001)
 
 
 # Empty matrices to store results (5 model parameters)
-res.old<-matrix(ncol=5,nrow=N)
+res.old <- matrix(ncol=5,nrow=N)
 res.new<-matrix(ncol=5,nrow=N)
 
 # Empty vectors to store weights
